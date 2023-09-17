@@ -11,6 +11,6 @@ export class SearchFilterPipe implements PipeTransform {
          return customers;
       }
 
-      return customers.filter((customer) => customer.name.toLowerCase().includes(filter.toLowerCase()));
+      return customers.filter((customer) => customer.name?.toLowerCase().includes(filter.toLowerCase()));
    }
 }

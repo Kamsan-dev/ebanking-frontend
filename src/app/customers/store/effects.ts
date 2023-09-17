@@ -1,8 +1,8 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerService } from '../services/customer.service';
 import { inject } from '@angular/core';
-import { customersActions } from './action';
-import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
+import { customerActionDelete, customerAddAction, customersActions } from './action';
+import { catchError, exhaustMap, map, mergeAll, mergeMap, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CustomerInterface } from '../types/customer.interface';
@@ -29,3 +29,75 @@ export const customerEffects = createEffect(
    },
    { functional: true }
 );
+
+export const customerAddEffects = createEffect(
+   (action$ = inject(Actions), customerService = inject(CustomerService)) => {
+      return action$.pipe(
+         ofType(customerAddAction.addCustomer),
+         switchMap(({ customer }) => {
+            return customerService.addCustomer(customer).pipe(
+               map((customer: CustomerInterface) => {
+                  return customerAddAction.addCustomerSuccess({ customer });
+               }),
+               catchError((errorResponse: HttpErrorResponse) => {
+                  return of(
+                     customerAddAction.addCustomerFailure({
+                        errormessage: errorResponse.message,
+                     })
+                  );
+               })
+            );
+         })
+      );
+   },
+   { functional: true }
+);
+
+export const redirectAfterAddCustomerEffect = createEffect(
+   (action$ = inject(Actions), router = inject(Router)) => {
+      return action$.pipe(
+         ofType(customerAddAction.addCustomerSuccess),
+         tap(() => {
+            router.navigateByUrl('/customers');
+         })
+      );
+   },
+   { functional: true, dispatch: false }
+);
+
+/* DELETE CUSTOMERS EFFECTS */
+
+export const customerDeleteEffects = createEffect(
+   (action$ = inject(Actions), customerService = inject(CustomerService)) => {
+      return action$.pipe(
+         ofType(customerActionDelete.deleteCustomer),
+         mergeMap(({ customerId }) => {
+            return customerService.deleteCustomer(customerId).pipe(
+               map(() => {
+                  return customerActionDelete.deleteCustomerSuccess({ customerId });
+               }),
+               catchError((errorResponse: HttpErrorResponse) => {
+                  return of(
+                     customerActionDelete.deleteCustomerFailure({
+                        errormessage: errorResponse.message,
+                     })
+                  );
+               })
+            );
+         })
+      );
+   },
+   { functional: true }
+);
+
+// export const redirectAfterDeleteCustomerEffect = createEffect(
+//    (action$ = inject(Actions), router = inject(Router)) => {
+//       return action$.pipe(
+//          ofType(customerActionDelete.deleteCustomerSuccess),
+//          tap(() => {
+//             router.navigateByUrl('/customers');
+//          })
+//       );
+//    },
+//    { functional: true, dispatch: false }
+// );

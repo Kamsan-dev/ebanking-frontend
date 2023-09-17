@@ -22,7 +22,14 @@
          </div>
       </div>
       <div class="flex justify-end">
-         <button class="px-4 py-2 rounded-md bg-sky-500 text-sky-100 hover:bg-sky-600">Add Customer</button>
+         <button
+            (click)="newCustomerButtonClick()"
+            data-modal-target="defaultModal"
+            data-modal-toggle="defaultModal"
+            class="px-4 py-2 rounded-md bg-sky-500 text-sky-100 hover:bg-sky-600"
+         >
+            Add Customer
+         </button>
       </div>
    </div>
    <div class="flex flex-col">
@@ -81,8 +88,8 @@
                      <td
                         class="text-sm font-medium leading-5 text-center whitespace-no-wrap border-b border-gray-200"
                      >
-                        <a href="#" class="text-gray-600 hover:text-gray-900">
-                           <trash-outline-icon />
+                        <a class="text-gray-600" (click)="onDeleteCustomer(customer.id)">
+                           <trash-outline-icon class="hover:text-red-500 cursor-pointer" />
                         </a>
                      </td>
                   </tr>

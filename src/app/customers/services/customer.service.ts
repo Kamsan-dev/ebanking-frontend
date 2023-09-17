@@ -14,4 +14,12 @@ export class CustomerService implements OnInit {
    getCustomers(): Observable<CustomerInterface[]> {
       return this.http.get<CustomerInterface[]>('http://localhost:8080/api/v1/customers');
    }
+
+   addCustomer(customer: CustomerInterface): Observable<CustomerInterface> {
+      return this.http.post<CustomerInterface>('http://localhost:8080/api/v1/customers', customer);
+   }
+
+   deleteCustomer(customerId: number): Observable<void> {
+      return this.http.delete<void>('http://localhost:8080/api/v1/customers/' + customerId);
+   }
 }
