@@ -1,5 +1,5 @@
 export interface CustomerInterface {
-   id: number | null;
+   id?: number;
    name: string | undefined;
    email: string | undefined;
 }

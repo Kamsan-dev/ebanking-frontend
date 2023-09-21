@@ -1,91 +1,66 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { customerActionDelete, customerAddAction, customersActions } from './action';
 import { CustomerInterface } from '../types/customer.interface';
-import { CustomerStateAddInterface } from '../types/customerAddRequest';
 
 export interface State {
-   customers: CustomerInterface[] | null;
+   customers: Array<CustomerInterface>;
    errors: string | null;
+   hasLoaded: boolean;
 }
 
-const initialState: State = {
-   customers: null,
+export const initialState: State = {
+   customers: [],
    errors: null,
+   hasLoaded: false,
 };
 
 const customerFeature = createFeature({
    name: 'customer',
    reducer: createReducer(
       initialState,
+      on(
+         customersActions.loadCustomers,
+         customerActionDelete.deleteCustomer,
+         customerAddAction.addCustomer,
+         (state) => {
+            return {
+               ...state,
+            };
+         }
+      ),
       on(customersActions.loadCustomersSuccess, (state, action) => {
          return {
             ...state,
-            customers: [...action.customers],
-            errors: null,
+            customers: action.customers,
+            hasLoaded: true,
          };
       }),
       on(customersActions.loadCustomersFailure, (state, action) => {
          return {
             ...state,
-            customers: null,
+            customers: [],
             errors: action.errormessage,
          };
-      })
-   ),
-});
-
-const initialStateAddRequest: CustomerStateAddInterface = {
-   isSubmitting: false,
-   isLoading: false,
-   errorOnRequest: null,
-};
-
-const customerAddFeature = createFeature({
-   name: 'customer-add',
-   reducer: createReducer(
-      initialStateAddRequest,
-      on(customerAddAction.addCustomer, (state) => {
-         return {
-            ...state,
-            isSubmitting: true,
-            errorOnRequest: null,
-         };
       }),
-      on(customerAddAction.addCustomerSuccess, (state) => {
+
+      on(customerAddAction.addCustomerSuccess, (state, action) => {
          return {
             ...state,
-            isSubmitting: false,
-            isLoading: false,
-            errorOnRequest: null,
+            customers: [...state.customers, action.customer],
+            errors: null,
          };
       }),
       on(customerAddAction.addCustomerFailure, (state, action) => {
          return {
             ...state,
-            isSubmitting: false,
-            isLoading: false,
-            errorOnRequest: action.errormessage,
-         };
-      })
-   ),
-});
-
-const customerDeleteFeature = createFeature({
-   name: 'customer-delete',
-   reducer: createReducer(
-      initialState,
-      on(customerActionDelete.deleteCustomer, (state, action) => {
-         return {
-            ...state,
+            errors: action.errormessage,
          };
       }),
+
       on(customerActionDelete.deleteCustomerSuccess, (state, action) => {
-         const newCustomers = state.customers?.filter((c) => c.id !== action.customerId);
          return {
             ...state,
-            customers: state.customers === null ? null : state.customers.slice(action.customerId - 1, 1),
-            //customers: newCustomers
-            errors: null,
+            customers: state.customers.filter((c) => c.id !== action.customerId),
          };
       }),
       on(customerActionDelete.deleteCustomerFailure, (state, action) => {
@@ -97,18 +72,16 @@ const customerDeleteFeature = createFeature({
    ),
 });
 
+// const initialStateAddRequest: CustomerStateAddInterface = {
+//    isSubmitting: false,
+//    isLoading: false,
+//    errorOnRequest: null,
+// };
+
 export const {
    name: customerFeatureKey,
    reducer: customerReducer,
    selectCustomers,
    selectErrors,
+   selectHasLoaded,
 } = customerFeature;
-
-export const {
-   name: customerAddFeatureKey,
-   reducer: customerAddReducer,
-   selectErrorOnRequest,
-   selectIsSubmitting,
-} = customerAddFeature;
-
-export const { name: customerDeleteFeatureKey, reducer: customerDeleteReducer } = customerDeleteFeature;
