@@ -1,7 +1,7 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerService } from '../services/customer.service';
 import { inject } from '@angular/core';
-import { customerActionDelete, customerAddAction, customersActions } from './action';
+import { customerActionDelete, customerActionUpdate, customerAddAction, customersActions } from './action';
 import { catchError, exhaustMap, map, mergeAll, concatMap, mergeMap, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -42,7 +42,7 @@ export const customerAddEffects = createEffect(
                catchError((errorResponse: HttpErrorResponse) => {
                   return of(
                      customerAddAction.addCustomerFailure({
-                        errormessage: errorResponse.message,
+                        errormessage: errorResponse.error,
                      })
                   );
                })
@@ -90,14 +90,39 @@ export const customerDeleteEffects = createEffect(
    { functional: true }
 );
 
-// export const redirectAfterDeleteCustomerEffect = createEffect(
-//    (action$ = inject(Actions), router = inject(Router)) => {
-//       return action$.pipe(
-//          ofType(customerActionDelete.deleteCustomerSuccess),
-//          tap(() => {
-//             router.navigateByUrl('/customers');
-//          })
-//       );
-//    },
-//    { functional: true, dispatch: false }
-// );
+/* UPDATE CUSTOMERS EFFECTS */
+
+export const customerUpdateEffects = createEffect(
+   (action$ = inject(Actions), customerService = inject(CustomerService)) => {
+      return action$.pipe(
+         ofType(customerActionUpdate.updateCustomer),
+         concatMap(({ customer }) => {
+            return customerService.updateCustomer(customer).pipe(
+               map((customer: CustomerInterface) => {
+                  return customerActionUpdate.updateCustomerSuccess({ customer });
+               }),
+               catchError((errorResponse: HttpErrorResponse) => {
+                  return of(
+                     customerActionUpdate.updateCustomerFailure({
+                        errormessage: errorResponse.error,
+                     })
+                  );
+               })
+            );
+         })
+      );
+   },
+   { functional: true }
+);
+
+export const redirectAfterUpdateCustomerEffect = createEffect(
+   (action$ = inject(Actions), router = inject(Router)) => {
+      return action$.pipe(
+         ofType(customerActionUpdate.updateCustomer),
+         tap(() => {
+            router.navigateByUrl('/customers');
+         })
+      );
+   },
+   { functional: true, dispatch: false }
+);

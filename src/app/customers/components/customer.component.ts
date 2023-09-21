@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { CustomerInterface } from '../types/customer.interface';
 import { Observable } from 'rxjs';
-
 import { NewCustomerComponent } from './new-customers/new-customer.component';
 
 @Component({

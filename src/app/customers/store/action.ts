@@ -27,3 +27,12 @@ export const customerActionDelete = createActionGroup({
       'Delete customer failure': props<{ errormessage: string }>(),
    },
 });
+
+export const customerActionUpdate = createActionGroup({
+   source: '[Customers] update',
+   events: {
+      updateCustomer: props<{ customer: CustomerInterface }>(),
+      'Update customer success': props<{ customer: CustomerInterface }>(),
+      'Update customer failure': props<{ errormessage: string }>(),
+   },
+});

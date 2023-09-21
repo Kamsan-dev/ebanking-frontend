@@ -86,7 +86,10 @@
                         <td
                            class="text-sm font-medium leading-5 text-center whitespace-no-wrap border-b border-gray-200"
                         >
-                           <a href="#" class="text-indigo-600 hover:text-indigo-900">
+                           <a
+                              [routerLink]="['/customers/edit', customer.id]"
+                              class="text-indigo-600 hover:text-indigo-900"
+                           >
                               <pencil-square-outline-icon />
                            </a>
                         </td>

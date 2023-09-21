@@ -1,6 +1,7 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { customerActionDelete, customerAddAction, customersActions } from './action';
+import { customerActionDelete, customerActionUpdate, customerAddAction, customersActions } from './action';
 import { CustomerInterface } from '../types/customer.interface';
+import { BackendErrorsInterface } from '../types/backendErrors.interface';
 
 export interface State {
    customers: Array<CustomerInterface>;
@@ -22,6 +23,7 @@ const customerFeature = createFeature({
          customersActions.loadCustomers,
          customerActionDelete.deleteCustomer,
          customerAddAction.addCustomer,
+         customerActionUpdate.updateCustomer,
          (state) => {
             return {
                ...state,
@@ -51,6 +53,7 @@ const customerFeature = createFeature({
          };
       }),
       on(customerAddAction.addCustomerFailure, (state, action) => {
+         console.log(action.errormessage);
          return {
             ...state,
             errors: action.errormessage,
@@ -64,6 +67,21 @@ const customerFeature = createFeature({
          };
       }),
       on(customerActionDelete.deleteCustomerFailure, (state, action) => {
+         return {
+            ...state,
+            errors: action.errormessage,
+         };
+      }),
+      on(customerActionUpdate.updateCustomerSuccess, (state, action) => {
+         return {
+            ...state,
+            customers: state.customers.map((c) =>
+               c.id === action.customer.id ? Object.assign({}, c, action.customer) : c
+            ),
+            errors: null,
+         };
+      }),
+      on(customerActionUpdate.updateCustomerFailure, (state, action) => {
          return {
             ...state,
             errors: action.errormessage,

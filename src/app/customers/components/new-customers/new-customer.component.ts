@@ -2,11 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CustomerService } from '../../services/customer.service';
 import { Store } from '@ngrx/store';
 import { customerAddAction } from '../../store/action';
 import { CustomerInterface } from '../../types/customer.interface';
-import { combineLatest } from 'rxjs';
 
 @Component({
    selector: 'app-new-customer',

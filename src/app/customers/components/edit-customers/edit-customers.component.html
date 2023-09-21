@@ -1,8 +1,8 @@
 <div class="container max-w-7xl mx-auto mt-8 p-5 text-bl">
    <div class="mb-4 w-1/2">
-      <h1 class="text-3xl font-bold decoration-gray-400 pb-5">Add a new customer</h1>
+      <h1 class="text-3xl font-bold decoration-gray-400 pb-5">Edit customer with id {{ currentId }}</h1>
 
-      <form [formGroup]="addNewCustomerForm" (ngSubmit)="onSubmitForm()">
+      <form [formGroup]="updateCustomerForm" (ngSubmit)="onSubmitForm()">
          <div class="relative z-0 w-full mb-6 group text-black">
             <input
                type="email"
