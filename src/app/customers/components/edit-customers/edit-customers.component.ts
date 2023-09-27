@@ -33,8 +33,7 @@ export class EditCustomersComponent implements OnInit {
       this.route.paramMap.subscribe((value) => {
          this.currentId = Number(value.get('id'));
       });
-   }
-   ngOnInit() {
+
       this.customers$.subscribe((customers) => {
          return customers.map((customer) => {
             if (customer.id === this.currentId) {
@@ -44,6 +43,7 @@ export class EditCustomersComponent implements OnInit {
          });
       });
    }
+   ngOnInit() {}
 
    onSubmitForm(): void {
       if (this.updateCustomerForm.valid) {

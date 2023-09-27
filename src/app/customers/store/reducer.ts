@@ -1,5 +1,11 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { customerActionDelete, customerActionUpdate, customerAddAction, customersActions } from './action';
+import {
+   customerActionDelete,
+   customerActionSearch,
+   customerActionUpdate,
+   customerAddAction,
+   customersActions,
+} from './action';
 import { CustomerInterface } from '../types/customer.interface';
 import { BackendErrorsInterface } from '../types/backendErrors.interface';
 
@@ -24,6 +30,7 @@ const customerFeature = createFeature({
          customerActionDelete.deleteCustomer,
          customerAddAction.addCustomer,
          customerActionUpdate.updateCustomer,
+         customerActionSearch.searchCustomer,
          (state) => {
             return {
                ...state,
@@ -53,7 +60,6 @@ const customerFeature = createFeature({
          };
       }),
       on(customerAddAction.addCustomerFailure, (state, action) => {
-         console.log(action.errormessage);
          return {
             ...state,
             errors: action.errormessage,
@@ -86,15 +92,23 @@ const customerFeature = createFeature({
             ...state,
             errors: action.errormessage,
          };
+      }),
+
+      on(customerActionSearch.searchCustomerSuccess, (state, action) => {
+         return {
+            ...state,
+            customers: action.customers,
+            errors: null,
+         };
+      }),
+      on(customerActionSearch.searchCustomerFailure, (state, action) => {
+         return {
+            ...state,
+            errors: action.errormessage,
+         };
       })
    ),
 });
-
-// const initialStateAddRequest: CustomerStateAddInterface = {
-//    isSubmitting: false,
-//    isLoading: false,
-//    errorOnRequest: null,
-// };
 
 export const {
    name: customerFeatureKey,

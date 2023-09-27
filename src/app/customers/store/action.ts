@@ -36,3 +36,12 @@ export const customerActionUpdate = createActionGroup({
       'Update customer failure': props<{ errormessage: string }>(),
    },
 });
+
+export const customerActionSearch = createActionGroup({
+   source: '[Customers] search',
+   events: {
+      searchCustomer: props<{ keyword: string }>(),
+      'Search customer success': props<{ customers: CustomerInterface[] }>(),
+      'Search customer failure': props<{ errormessage: string }>(),
+   },
+});

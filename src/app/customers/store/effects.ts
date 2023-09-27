@@ -1,7 +1,13 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerService } from '../services/customer.service';
 import { inject } from '@angular/core';
-import { customerActionDelete, customerActionUpdate, customerAddAction, customersActions } from './action';
+import {
+   customerActionDelete,
+   customerActionSearch,
+   customerActionUpdate,
+   customerAddAction,
+   customersActions,
+} from './action';
 import { catchError, exhaustMap, map, mergeAll, concatMap, mergeMap, of, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -19,6 +25,31 @@ export const customerEffects = createEffect(
                catchError((errorResponse: HttpErrorResponse) => {
                   return of(
                      customersActions.loadCustomersFailure({
+                        errormessage: errorResponse.message,
+                     })
+                  );
+               })
+            );
+         })
+      );
+   },
+   { functional: true }
+);
+
+/* SEARCH CUSTOMERS EFFECTS */
+
+export const customerSearchEffects = createEffect(
+   (action$ = inject(Actions), customerService = inject(CustomerService)) => {
+      return action$.pipe(
+         ofType(customerActionSearch.searchCustomer),
+         exhaustMap(({ keyword }) => {
+            return customerService.searchCustomer(keyword).pipe(
+               map((data: CustomerInterface[]) => {
+                  return customerActionSearch.searchCustomerSuccess({ customers: data });
+               }),
+               catchError((errorResponse: HttpErrorResponse) => {
+                  return of(
+                     customerActionSearch.searchCustomerFailure({
                         errormessage: errorResponse.message,
                      })
                   );

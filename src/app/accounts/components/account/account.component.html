@@ -1,0 +1,34 @@
+<ng-container *ngIf="accounts$ | async as listAccounts">
+   <div class="container max-w-7xl mx-auto mt-8 p-5">
+      <div class="mb-4">
+         <h1 class="text-3xl font-bold decoration-gray-400">Accounts of customer {{ customerId }}</h1>
+         <div *ngFor="let account of listAccounts" class="grid grid-cols-4 gap-4 p-3">
+            <div
+               class="relative text-white flex w-96 flex-col rounded-xl bg-indigo-400 bg-clip-border shadow-md"
+            >
+               <div class="p-6">
+                  <h5
+                     class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased"
+                  >
+                     <p class="font-bold">{{ account.type }}</p>
+                     <p>{{ account.balance | number : '1.2-2' }} €</p>
+                  </h5>
+                  <p class="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
+                     Account opened on {{ account.createdAt | date : 'MMMM d, y' }}
+                     {{ account.status }}
+                  </p>
+               </div>
+               <div class="p-6 pt-0">
+                  <button
+                     class="select-none rounded-lg bg-pink-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                     type="button"
+                     data-ripple-light="true"
+                  >
+                     View transaction history
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</ng-container>
