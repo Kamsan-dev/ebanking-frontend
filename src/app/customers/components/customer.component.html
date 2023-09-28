@@ -1,9 +1,18 @@
 <div *ngIf="(customers$ | async)!.length > 0; else fetchDataErrorOrLoading">
-   <div *ngIf="customers$ | async as listCustomers" class="container max-w-7xl mx-auto mt-8 p-5">
+   <div
+      *ngIf="customers$ | async as listCustomers"
+      class="container max-w-7xl mx-auto mt-8 p-5 rounded-md bg-white"
+   >
       <div class="mb-4">
          <h1 class="text-3xl font-bold decoration-gray-400">Customers</h1>
          <div class="container flex mx-auto pt-3">
             <div class="flex border-2 rounded">
+               <input
+                  type="text"
+                  class="px-4 py-2 w-80"
+                  placeholder="Dynamic Search..."
+                  [(ngModel)]="filteredValue"
+               />
                <button class="flex items-center justify-center px-4 border-r">
                   <svg
                      class="w-6 h-6 text-gray-600"
@@ -16,17 +25,12 @@
                      ></path>
                   </svg>
                </button>
-               <input
-                  type="text"
-                  class="px-4 py-2 w-80"
-                  placeholder="Dynamic Search..."
-                  [(ngModel)]="filteredValue"
-               />
             </div>
          </div>
          <form [formGroup]="searchCustomerForm" (ngSubmit)="handleSearch()">
             <div class="container flex mx-auto pt-3">
                <div class="flex border-2 rounded">
+                  <input type="text" class="px-4 py-2 w-80" placeholder="Search..." formControlName="name" />
                   <button class="flex items-center justify-center px-4 border-r">
                      <svg
                         class="w-6 h-6 text-gray-600"
@@ -39,15 +43,7 @@
                         ></path>
                      </svg>
                   </button>
-                  <input type="text" class="px-4 py-2 w-80" placeholder="Search..." formControlName="name" />
                </div>
-               <button
-                  [disabled]=""
-                  type="submit"
-                  class="px-4 py-2 rounded-md bg-sky-500 text-sky-100 hover:bg-sky-600"
-               >
-                  Submit
-               </button>
             </div>
          </form>
          <div class="flex justify-end">

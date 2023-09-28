@@ -8,20 +8,25 @@ import { AccountInterface } from '../../types/account.interface';
 import { selectAccounts, selectHasLoaded } from '../../store/accounts.reducer';
 import { accountsActions } from '../../store/accounts.action';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+
+import { RouterModule } from '@angular/router';
 
 @Component({
    selector: 'app-account',
    standalone: true,
-   imports: [CommonModule, FormsModule],
+   imports: [CommonModule, FormsModule, RouterModule],
    templateUrl: './account.component.html',
    styleUrls: ['./account.component.css'],
 })
 export class AccountComponent implements OnInit {
    customerId: number = 0;
    accounts$: Observable<Array<AccountInterface>>;
-   //subscription: Subscription;
-   constructor(private route: ActivatedRoute, private service: AccountsService, private store: Store) {
+   constructor(
+      private route: ActivatedRoute,
+      private router: Router,
+      private service: AccountsService,
+      private store: Store
+   ) {
       this.route.paramMap.subscribe((value) => {
          this.customerId = Number(value.get('customerId'));
       });
@@ -31,5 +36,7 @@ export class AccountComponent implements OnInit {
    ngOnInit() {
       const customerId = this.customerId;
       this.store.dispatch(accountsActions.loadAccounts({ customerId }));
+      const href = this.router.url;
+      console.log(this.router.url);
    }
 }
