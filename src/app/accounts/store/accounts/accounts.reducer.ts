@@ -1,5 +1,5 @@
 import { createFeature, createReducer, on } from '@ngrx/store';
-import { AccountInterface } from '../types/account.interface';
+import { AccountInterface } from '../../types/account.interface';
 import { accountsActions } from './accounts.action';
 
 export interface AccountsState {

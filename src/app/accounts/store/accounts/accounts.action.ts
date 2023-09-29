@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { AccountInterface } from '../types/account.interface';
+import { AccountInterface } from '../../types/account.interface';
 
 export const accountsActions = createActionGroup({
    source: '[Accounts] load',

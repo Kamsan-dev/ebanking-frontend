@@ -3,8 +3,14 @@ import { customerFeatureKey, customerReducer } from './customers/store/reducer';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import * as customerEffects from './customers/store/effects';
-import * as accountsEffects from './accounts/store/accounts.effects';
-import { accountsFeatureKey, accountsReducer } from './accounts/store/accounts.reducer';
+import * as accountsEffects from './accounts/store/accounts/accounts.effects';
+import * as accountsOperationsEffects from './accounts/store/accounts-operations/accounts-operations.effects';
+
+import { accountsFeatureKey, accountsReducer } from './accounts/store/accounts/accounts.reducer';
+import {
+   accountOperationsFeatureKey,
+   accountOperationsReducer,
+} from './accounts/store/accounts-operations/accounts-operations.reducer';
 
 export const routes: Routes = ([] = [
    {
@@ -19,6 +25,11 @@ export const routes: Routes = ([] = [
    {
       path: 'accounts',
       loadChildren: () => import('src/app/accounts/accounts.routes').then((m) => m.accountsRoutes),
-      providers: [provideState(accountsFeatureKey, accountsReducer), provideEffects(accountsEffects)],
+      providers: [
+         provideState(accountsFeatureKey, accountsReducer),
+         provideEffects(accountsEffects),
+         provideState(accountOperationsFeatureKey, accountOperationsReducer),
+         provideEffects(accountsOperationsEffects),
+      ],
    },
 ]);

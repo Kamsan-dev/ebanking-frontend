@@ -5,8 +5,8 @@ import { AccountsService } from 'src/app/customers/services/accounts.service';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { AccountInterface } from '../../types/account.interface';
-import { selectAccounts, selectHasLoaded } from '../../store/accounts.reducer';
-import { accountsActions } from '../../store/accounts.action';
+import { selectAccounts, selectHasLoaded } from '../../store/accounts/accounts.reducer';
+import { accountsActions } from '../../store/accounts/accounts.action';
 import { FormsModule } from '@angular/forms';
 
 import { RouterModule } from '@angular/router';

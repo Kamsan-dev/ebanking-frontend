@@ -5,7 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { accountsActions } from './accounts.action';
 import { AccountsService } from 'src/app/customers/services/accounts.service';
-import { AccountInterface } from '../types/account.interface';
+import { AccountInterface } from '../../types/account.interface';
 
 export const accountsEffects = createEffect(
    (action$ = inject(Actions), customerService = inject(AccountsService)) => {
