@@ -1,0 +1,156 @@
+<ng-container *ngIf="accountsOperations$ | async as accountsOperations">
+   <div class="container max-w-7xl mx-auto mt-4 p-3 rounded-md bg-white">
+      <div class="mb-4">
+         <h1 class="text-3xl font-bold decoration-gray-400">Account history</h1>
+         <div class="flex flex-col pt-3">
+            <div class="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 space-y-3">
+               <div
+                  class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg"
+               >
+                  <table class="min-w-full">
+                     <thead class="bg-blue-400">
+                        <tr>
+                           <th
+                              class="px-6 py-3 text-xs font-bold leading-4 tracking-wider text-left text-white uppercase border-b border-gray-200"
+                           >
+                              Balance :
+                              {{ accountsOperations.balance | number : '1.2-2' }}
+                              €
+                           </th>
+                        </tr>
+                     </thead>
+                     <thead>
+                        <tr>
+                           <th
+                              class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
+                           >
+                              Operation date
+                           </th>
+                           <th
+                              class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
+                           >
+                              Description
+                           </th>
+                           <th
+                              class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
+                           >
+                              Debit
+                           </th>
+                           <th
+                              class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
+                           >
+                              Credit
+                           </th>
+                        </tr>
+                     </thead>
+
+                     <tbody>
+                        <tr
+                           *ngFor="
+                              let operation of accountsOperations.accountOperationDTOS;
+                              let even = even;
+                              let odd = odd
+                           "
+                           [ngClass]="{ odd: odd, even: even }"
+                           class="font-semibold"
+                        >
+                           <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <div class="text-sm leading-5 text-gray-900">
+                                 {{ operation.operationDate | date : 'MMMM d, y hh:mm' }}
+                              </div>
+                           </td>
+
+                           <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                              <p>{{ operation.description }}</p>
+                           </td>
+
+                           <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-end">
+                              <p class="{{ operation.type === 'CREDIT' ? 'hidden' : 'text-red-400' }}">
+                                 - {{ operation.amount | number : '1.2-2' }} €
+                              </p>
+                           </td>
+
+                           <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-end">
+                              <p class="{{ operation.type === 'CREDIT' ? 'text-green-400' : 'hidden' }}">
+                                 + {{ operation.amount | number : '1.2-2' }} €
+                              </p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <nav>
+                  <ul class="flex items-center -space-x-px h-10 text-base">
+                     <li>
+                        <button
+                           [disabled]="(activePage$ | async) === 0"
+                           #item
+                           value="{{ activePage$ | async }}"
+                           (click)="handlePreviousButton(item.value)"
+                           class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        >
+                           <svg
+                              class="w-3 h-3"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 6 10"
+                           >
+                              <path
+                                 stroke="currentColor"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 stroke-width="2"
+                                 d="M5 1 1 5l4 4"
+                              />
+                           </svg>
+                        </button>
+                     </li>
+                     <li
+                        *ngFor="
+                           let operations of [].constructor(accountsOperations.totalPages);
+                           let page = index
+                        "
+                     >
+                        <a
+                           (click)="goToPage(page)"
+                           class=" {{
+                              page === (activePage$ | async)
+                                 ? 'cursor-pointer z-10 flex items-center justify-center px-4 h-10 leading-tight text-white border border-blue-300 bg-blue-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+                                 : 'cursor-pointer flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+                           }} "
+                           >{{ page + 1 }}</a
+                        >
+                     </li>
+                     <li>
+                        <button
+                           [disabled]="(activePage$ | async) === accountsOperations.totalPages - 1"
+                           #item
+                           value="{{ activePage$ | async }}"
+                           (click)="handleNextButton(item.value)"
+                           class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        >
+                           <svg
+                              class="w-3 h-3"
+                              aria-hidden="true"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 6 10"
+                           >
+                              <path
+                                 stroke="currentColor"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 stroke-width="2"
+                                 d="m1 9 4-4-4-4"
+                              />
+                           </svg>
+                        </button>
+                     </li>
+                  </ul>
+               </nav>
+            </div>
+         </div>
+      </div>
+   </div>
+</ng-container>

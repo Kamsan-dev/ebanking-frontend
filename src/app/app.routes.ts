@@ -5,7 +5,7 @@ import { provideEffects } from '@ngrx/effects';
 import * as customerEffects from './customers/store/effects';
 import * as accountsEffects from './accounts/store/accounts/accounts.effects';
 import * as accountsOperationsEffects from './accounts/store/accounts-operations/accounts-operations.effects';
-
+import * as accountTransferEffects from './accounts/store/bank-transfer/bank-transfer.effects';
 import { accountsFeatureKey, accountsReducer } from './accounts/store/accounts/accounts.reducer';
 import {
    accountOperationsFeatureKey,
@@ -30,6 +30,11 @@ export const routes: Routes = ([] = [
          provideEffects(accountsEffects),
          provideState(accountOperationsFeatureKey, accountOperationsReducer),
          provideEffects(accountsOperationsEffects),
+         provideEffects(accountTransferEffects),
       ],
+   },
+   {
+      path: '**',
+      redirectTo: '/customers',
    },
 ]);

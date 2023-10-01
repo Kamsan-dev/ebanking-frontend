@@ -39,4 +39,8 @@ export class AccountComponent implements OnInit {
       const href = this.router.url;
       console.log(this.router.url);
    }
+
+   bankTransferButtonClick() {
+      this.router.navigate(['/accounts', this.customerId, 'bank-transfer']);
+   }
 }

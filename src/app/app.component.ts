@@ -14,7 +14,9 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
          <app-sidebar />
          <div class="grow">
             <app-navbar />
-            <div class="bg-white container max-w-7xl mx-auto mt-8 p-5 rounded-md "><router-outlet /></div>
+            <div class="bg-white container max-w-7xl mx-auto mt-8 p-5 rounded-md min-h-screen">
+               <router-outlet />
+            </div>
          </div>
       </div>
    `,

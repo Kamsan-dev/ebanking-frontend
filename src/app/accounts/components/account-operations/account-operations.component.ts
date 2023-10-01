@@ -33,6 +33,7 @@ export class AccountOperationsComponent {
       const accountId = this.accountId;
       const page = 0;
       const size = 5;
+      this.store.dispatch(accountsOperationsActions.selectActivePage({ page }));
       this.store.dispatch(accountsOperationsActions.loadAccountsOperations({ accountId, page, size }));
       const href = this.router.url;
       console.log(this.router.url);
