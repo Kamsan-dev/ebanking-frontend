@@ -6,35 +6,44 @@ import * as customerEffects from './customers/store/effects';
 import * as accountsEffects from './accounts/store/accounts/accounts.effects';
 import * as accountsOperationsEffects from './accounts/store/accounts-operations/accounts-operations.effects';
 import * as accountTransferEffects from './accounts/store/bank-transfer/bank-transfer.effects';
+import * as authEffects from './auth/store/auth.effects';
 import { accountsFeatureKey, accountsReducer } from './accounts/store/accounts/accounts.reducer';
 import {
    accountOperationsFeatureKey,
    accountOperationsReducer,
 } from './accounts/store/accounts-operations/accounts-operations.reducer';
+import { authFeatureKey, authReaducer } from './auth/store/auth.reducer';
 
 export const routes: Routes = ([] = [
    {
-      path: 'customers',
-      loadChildren: () => import('src/app/customers/customers.route').then((m) => m.customerRoutes),
-      providers: [provideState(customerFeatureKey, customerReducer), provideEffects(customerEffects)],
-   },
-   {
-      path: 'counter',
-      loadChildren: () => import('src/app/counter/counter.routes').then((m) => m.counterRoutes),
-   },
-   {
-      path: 'accounts',
-      loadChildren: () => import('src/app/accounts/accounts.routes').then((m) => m.accountsRoutes),
-      providers: [
-         provideState(accountsFeatureKey, accountsReducer),
-         provideEffects(accountsEffects),
-         provideState(accountOperationsFeatureKey, accountOperationsReducer),
-         provideEffects(accountsOperationsEffects),
-         provideEffects(accountTransferEffects),
+      path: 'admin',
+      loadComponent: () => import('./admin/components/admin/admin.component').then((m) => m.AdminComponent),
+      children: [
+         {
+            path: 'customers',
+            loadChildren: () => import('src/app/customers/customers.route').then((m) => m.customerRoutes),
+            providers: [provideState(customerFeatureKey, customerReducer), provideEffects(customerEffects)],
+         },
+         {
+            path: 'accounts',
+            loadChildren: () => import('src/app/accounts/accounts.routes').then((m) => m.accountsRoutes),
+            providers: [
+               provideState(accountsFeatureKey, accountsReducer),
+               provideEffects(accountsEffects),
+               provideState(accountOperationsFeatureKey, accountOperationsReducer),
+               provideEffects(accountsOperationsEffects),
+               provideEffects(accountTransferEffects),
+            ],
+         },
       ],
    },
    {
+      path: 'auth',
+      loadChildren: () => import('src/app/auth/auth.routes').then((m) => m.authRoutes),
+      providers: [provideState(authFeatureKey, authReaducer), provideEffects(authEffects)],
+   },
+   {
       path: '**',
-      redirectTo: '/customers',
+      redirectTo: '/auth/login',
    },
 ]);

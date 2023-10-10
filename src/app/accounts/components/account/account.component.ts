@@ -21,12 +21,7 @@ import { RouterModule } from '@angular/router';
 export class AccountComponent implements OnInit {
    customerId: number = 0;
    accounts$: Observable<Array<AccountInterface>>;
-   constructor(
-      private route: ActivatedRoute,
-      private router: Router,
-      private service: AccountsService,
-      private store: Store
-   ) {
+   constructor(private route: ActivatedRoute, private router: Router, private store: Store) {
       this.route.paramMap.subscribe((value) => {
          this.customerId = Number(value.get('customerId'));
       });

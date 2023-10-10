@@ -5,7 +5,7 @@
    >
       <div class="mb-4">
          <h1 class="text-3xl font-bold decoration-gray-400">Customers</h1>
-         <div class="container flex mx-auto pt-3">
+         <div class="flex mx-auto pt-3">
             <div class="flex border-2 rounded">
                <input
                   type="text"
@@ -13,22 +13,10 @@
                   placeholder="Dynamic Search..."
                   [(ngModel)]="filteredValue"
                />
-               <button class="flex items-center justify-center px-4 border-r">
-                  <svg
-                     class="w-6 h-6 text-gray-600"
-                     fill="currentColor"
-                     xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 24 24"
-                  >
-                     <path
-                        d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"
-                     ></path>
-                  </svg>
-               </button>
             </div>
          </div>
          <form [formGroup]="searchCustomerForm" (ngSubmit)="handleSearch()">
-            <div class="container flex mx-auto pt-3">
+            <div class="flex mx-auto pt-3">
                <div class="flex border-2 rounded">
                   <input type="text" class="px-4 py-2 w-80" placeholder="Search..." formControlName="name" />
                   <button class="flex items-center justify-center px-4 border-r">
@@ -46,7 +34,7 @@
                </div>
             </div>
          </form>
-         <div class="flex justify-end">
+         <div class="flex md:justify-end sm:justify-normal pt-2">
             <button
                (click)="newCustomerButtonClick()"
                data-modal-target="defaultModal"
@@ -99,24 +87,24 @@
                      class="bg-white"
                   >
                      <tr>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                        <td class="px-6 py-4 whitespace-no-wrap border border-gray-200">
                            <div class="flex items-center">{{ customer.id }}</div>
                         </td>
 
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                        <td class="px-6 py-4 whitespace-no-wrap border border-gray-200">
                            <div class="text-sm leading-5 text-gray-900">{{ customer.name }}</div>
                         </td>
 
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                        <td class="px-6 py-4 whitespace-no-wrap border border-gray-200">
                            <p>{{ customer.email }}</p>
                         </td>
-                        <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                        <td class="px-6 py-4 whitespace-no-wrap border border-gray-200">
                            <a [routerLink]="['/accounts/list-accounts/', customer.id]" class="text-gray-600">
                               <calculator-outline-icon />
                            </a>
                         </td>
                         <td
-                           class="text-sm font-medium leading-5 text-center whitespace-no-wrap border-b border-gray-200"
+                           class="text-sm font-medium leading-5 text-center whitespace-no-wrap border border-gray-200"
                         >
                            <a
                               [routerLink]="['/customers/edit', customer.id]"
@@ -126,7 +114,7 @@
                            </a>
                         </td>
                         <td
-                           class="text-sm font-medium leading-5 text-center whitespace-no-wrap border-b border-gray-200"
+                           class="text-sm font-medium leading-5 text-center whitespace-no-wrap border border-gray-200"
                         >
                            <a class="text-gray-600" (click)="onDeleteCustomer(customer.id!)">
                               <trash-outline-icon class="hover:text-red-500 cursor-pointer" />

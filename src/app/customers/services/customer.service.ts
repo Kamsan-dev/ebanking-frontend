@@ -3,17 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { CustomerInterface } from '../types/customer.interface';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { PersistanceService } from 'src/app/shared/services/persistance.service';
 
 @Injectable({
    providedIn: 'root',
 })
 export class CustomerService implements OnInit {
-   constructor(private http: HttpClient) {}
+   constructor(private http: HttpClient, private persistanceService: PersistanceService) {}
 
    ngOnInit() {}
 
    getCustomers(): Observable<CustomerInterface[]> {
-      return this.http.get<CustomerInterface[]>(environment.host + 'customers');
+      return this.http.get<CustomerInterface[]>(environment.host + 'customers', this.getHeaders());
    }
 
    addCustomer(customer: CustomerInterface): Observable<CustomerInterface> {
@@ -31,5 +32,13 @@ export class CustomerService implements OnInit {
 
    searchCustomer(keyword: string): Observable<CustomerInterface[]> {
       return this.http.get<CustomerInterface[]>(environment.host + 'customers/search?keyword=' + keyword);
+   }
+
+   getHeaders(): Object {
+      return {
+         headers: {
+            Authorization: 'Bearer ' + this.persistanceService.get('access_token'),
+         },
+      };
    }
 }

@@ -22,13 +22,13 @@ export class NewCustomerComponent {
    });
 
    onSubmitForm(): void {
-      console.log('form', this.addNewCustomerForm.getRawValue());
-      const customer: CustomerInterface = {
-         name: this.addNewCustomerForm.value.name,
-         email: this.addNewCustomerForm.value.email,
-      };
+      if (this.addNewCustomerForm.valid) {
+         const customer: CustomerInterface = {
+            name: this.addNewCustomerForm.value.name,
+            email: this.addNewCustomerForm.value.email,
+         };
 
-      this.store.dispatch(customerAddAction.addCustomer({ customer }));
-      this.addNewCustomerForm.reset();
+         this.store.dispatch(customerAddAction.addCustomer({ customer }));
+      }
    }
 }
