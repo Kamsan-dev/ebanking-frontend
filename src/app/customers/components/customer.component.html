@@ -34,7 +34,10 @@
                </div>
             </div>
          </form>
-         <div class="flex md:justify-end sm:justify-normal pt-2">
+         <div
+            *ngIf="(currentUser$ | async)?.roles?.includes('ADMIN')"
+            class="flex md:justify-end sm:justify-normal pt-2"
+         >
             <button
                (click)="newCustomerButtonClick()"
                data-modal-target="defaultModal"
@@ -74,6 +77,7 @@
                            Account
                         </th>
                         <th
+                           *ngIf="(currentUser$ | async)?.roles?.includes('ADMIN')"
                            class="px-6 py-3 text-sm text-left text-gray-500 border-b border-gray-200 bg-gray-50"
                            colspan="2"
                         >
@@ -99,27 +103,32 @@
                            <p>{{ customer.email }}</p>
                         </td>
                         <td class="px-6 py-4 whitespace-no-wrap border border-gray-200">
-                           <a [routerLink]="['/accounts/list-accounts/', customer.id]" class="text-gray-600">
+                           <a
+                              [routerLink]="['/admin/accounts/list-accounts/', customer.id]"
+                              class="text-gray-600"
+                           >
                               <calculator-outline-icon />
                            </a>
                         </td>
-                        <td
-                           class="text-sm font-medium leading-5 text-center whitespace-no-wrap border border-gray-200"
-                        >
-                           <a
-                              [routerLink]="['/customers/edit', customer.id]"
-                              class="text-indigo-600 hover:text-indigo-900"
+                        <ng-container *ngIf="(currentUser$ | async)?.roles?.includes('ADMIN')">
+                           <td
+                              class="text-sm font-medium leading-5 text-center whitespace-no-wrap border border-gray-200"
                            >
-                              <pencil-square-outline-icon />
-                           </a>
-                        </td>
-                        <td
-                           class="text-sm font-medium leading-5 text-center whitespace-no-wrap border border-gray-200"
-                        >
-                           <a class="text-gray-600" (click)="onDeleteCustomer(customer.id!)">
-                              <trash-outline-icon class="hover:text-red-500 cursor-pointer" />
-                           </a>
-                        </td>
+                              <a
+                                 [routerLink]="['/admin/customers/edit', customer.id]"
+                                 class="text-indigo-600 hover:text-indigo-900"
+                              >
+                                 <pencil-square-outline-icon />
+                              </a>
+                           </td>
+                           <td
+                              class="text-sm font-medium leading-5 text-center whitespace-no-wrap border border-gray-200"
+                           >
+                              <a class="text-gray-600" (click)="onDeleteCustomer(customer.id!)">
+                                 <trash-outline-icon class="hover:text-red-500 cursor-pointer" />
+                              </a>
+                           </td>
+                        </ng-container>
                      </tr>
                   </tbody>
                </table>

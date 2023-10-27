@@ -14,7 +14,7 @@ export class CustomerService implements OnInit {
    ngOnInit() {}
 
    getCustomers(): Observable<CustomerInterface[]> {
-      return this.http.get<CustomerInterface[]>(environment.host + 'customers', this.getHeaders());
+      return this.http.get<CustomerInterface[]>(environment.host + 'customers');
    }
 
    addCustomer(customer: CustomerInterface): Observable<CustomerInterface> {
@@ -32,13 +32,5 @@ export class CustomerService implements OnInit {
 
    searchCustomer(keyword: string): Observable<CustomerInterface[]> {
       return this.http.get<CustomerInterface[]>(environment.host + 'customers/search?keyword=' + keyword);
-   }
-
-   getHeaders(): Object {
-      return {
-         headers: {
-            Authorization: 'Bearer ' + this.persistanceService.get('access_token'),
-         },
-      };
    }
 }

@@ -10,3 +10,12 @@ export const authLoginAction = createActionGroup({
       'Login failure': props<{ errormessage: string }>(),
    },
 });
+
+export const authLogoutAction = createActionGroup({
+   source: '[auth] logout',
+   events: {
+      Logout: emptyProps,
+      'Logout success': emptyProps,
+      'Logout failure': props<{ errormessage: string }>(),
+   },
+});

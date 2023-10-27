@@ -13,6 +13,8 @@ import { Observable } from 'rxjs';
 import { NewCustomerComponent } from './new-customers/new-customer.component';
 import { FormBuilder } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { selectCurrentUser } from 'src/app/auth/store/auth.reducer';
+import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 
 @Component({
    selector: 'app-customer',
@@ -32,6 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class CustomerComponent implements OnInit {
    filteredValue: string = '';
    customers$: Observable<CustomerInterface[]>;
+   currentUser$: Observable<CurrentUserInterface | undefined>;
    errors$: Observable<string | null>;
    searchCustomerForm: FormGroup;
 
@@ -41,6 +44,7 @@ export class CustomerComponent implements OnInit {
       });
       this.customers$ = this.store.select(selectCustomers);
       this.errors$ = this.store.select(selectErrors);
+      this.currentUser$ = this.store.select(selectCurrentUser);
    }
 
    ngOnInit(): void {
@@ -51,7 +55,7 @@ export class CustomerComponent implements OnInit {
    }
 
    newCustomerButtonClick(): void {
-      this.router.navigate(['/customers/add']);
+      this.router.navigate(['/admin/customers/add']);
    }
 
    onDeleteCustomer(customerId: number): void {

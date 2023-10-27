@@ -1,5 +1,6 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, on, union } from '@ngrx/store';
 import { authLoginAction } from './auth.action';
+import { authLogoutAction } from './auth.action';
 import { AuthStateInterface } from '../types/authState.interface';
 import jwtDecode from 'jwt-decode';
 
@@ -26,7 +27,7 @@ const authFeature = createFeature({
    name: 'auth',
    reducer: createReducer(
       initialState,
-      on(authLoginAction.login, (state) => ({
+      on(authLoginAction.login, authLogoutAction.logout, (state) => ({
          ...state,
          isSubmitting: true,
       })),
@@ -35,6 +36,12 @@ const authFeature = createFeature({
          isSubmitting: false,
          currentUser: loadUserProfileFromJWT(action.jwToken),
          isAuthenticated: true,
+      })),
+      on(authLogoutAction.logoutSuccess, (state, action) => ({
+         ...state,
+         isSubmitting: false,
+         isAuthenticated: false,
+         currentUser: undefined,
       }))
    ),
 });

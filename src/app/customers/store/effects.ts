@@ -89,7 +89,7 @@ export const redirectAfterAddCustomerEffect = createEffect(
       return action$.pipe(
          ofType(customerAddAction.addCustomerSuccess),
          tap(() => {
-            router.navigateByUrl('/customers');
+            router.navigateByUrl('/admin/customers');
          })
       );
    },
@@ -151,7 +151,7 @@ export const redirectAfterUpdateCustomerEffect = createEffect(
       return action$.pipe(
          ofType(customerActionUpdate.updateCustomer),
          tap(() => {
-            router.navigateByUrl('/customers');
+            router.navigateByUrl('/admin/customers');
          })
       );
    },

@@ -13,11 +13,13 @@ import {
    accountOperationsReducer,
 } from './accounts/store/accounts-operations/accounts-operations.reducer';
 import { authFeatureKey, authReaducer } from './auth/store/auth.reducer';
+import { authGuard } from './auth/guards/auth.guard';
 
 export const routes: Routes = ([] = [
    {
       path: 'admin',
       loadComponent: () => import('./admin/components/admin/admin.component').then((m) => m.AdminComponent),
+      canActivate: [authGuard],
       children: [
          {
             path: 'customers',
@@ -34,6 +36,13 @@ export const routes: Routes = ([] = [
                provideEffects(accountsOperationsEffects),
                provideEffects(accountTransferEffects),
             ],
+         },
+         {
+            path: 'not-authorized',
+            loadComponent: () =>
+               import('./auth/components/not-authorized/not-authorized.component').then(
+                  (m) => m.NotAuthorizedComponent
+               ),
          },
       ],
    },
