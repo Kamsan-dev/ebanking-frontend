@@ -10,7 +10,8 @@
          >Connected as {{ (currentUser$ | async)?.username }}</a
       >
       <a class="cursor-pointer text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2"
-         >with roles : {{ (currentUser$ | async)?.roles }}</a
-      >
+         >with roles : {{ (currentUser$ | async)?.roles }} and customerId :
+         {{ (currentUser$ | async)?.customer_id }}
+      </a>
    </div>
 </nav>

@@ -14,6 +14,7 @@ import {
 } from './accounts/store/accounts-operations/accounts-operations.reducer';
 import { authFeatureKey, authReaducer } from './auth/store/auth.reducer';
 import { authGuard } from './auth/guards/auth.guard';
+import { authorizationGuard } from './auth/guards/authorization.guard';
 
 export const routes: Routes = ([] = [
    {
@@ -23,6 +24,7 @@ export const routes: Routes = ([] = [
       children: [
          {
             path: 'customers',
+            canActivate: [authorizationGuard],
             loadChildren: () => import('src/app/customers/customers.route').then((m) => m.customerRoutes),
             providers: [provideState(customerFeatureKey, customerReducer), provideEffects(customerEffects)],
          },

@@ -7,17 +7,17 @@ import { authorizationGuard } from '../auth/guards/authorization.guard';
 export const customerRoutes: Route[] = [
    {
       path: '',
+      data: { roles: 'ADMIN' },
       component: CustomerComponent,
    },
    {
       path: 'add',
-      canActivate: [authorizationGuard],
       data: { roles: 'ADMIN' },
       component: NewCustomerComponent,
    },
    {
       path: 'edit/:id',
-      canActivate: [authorizationGuard],
+      data: { roles: 'ADMIN' },
       component: EditCustomersComponent,
    },
    {

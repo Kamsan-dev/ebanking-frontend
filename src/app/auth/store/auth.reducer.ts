@@ -16,10 +16,12 @@ const loadUserProfileFromJWT = (data: any) => {
    const decodedJwt: any = jwtDecode(access_token);
    const username = decodedJwt.sub;
    const roles = decodedJwt.scope;
+   const customerId = decodedJwt.customerid;
    return {
       username: username,
       token: access_token,
       roles: roles,
+      customer_id: customerId,
    };
 };
 

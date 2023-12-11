@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// import { Collapse, Dropdown, initTE } from 'tw-elements';
-
-// initTE({ Collapse, Dropdown });
 
 import { Store } from '@ngrx/store';
 import { selectCurrentUser } from 'src/app/auth/store/auth.reducer';

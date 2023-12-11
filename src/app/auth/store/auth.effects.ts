@@ -4,9 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, concatMap, map, of, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { PersistanceService } from 'src/app/shared/services/persistance.service';
-import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 import { authLoginAction } from './auth.action';
-import { Router } from '@angular/router';
 
 export const authLoginEffects = createEffect(
    (
@@ -37,11 +35,11 @@ export const authLoginEffects = createEffect(
 );
 
 export const redirectAfterLoginSuccessEffect = createEffect(
-   (action$ = inject(Actions), router = inject(Router)) => {
+   (action$ = inject(Actions), authService = inject(AuthService)) => {
       return action$.pipe(
          ofType(authLoginAction.loginSuccess),
          tap(() => {
-            router.navigateByUrl('/admin');
+            authService.redirectAfterLoginSuccess();
          })
       );
    },
