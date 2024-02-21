@@ -1,27 +1,36 @@
 # EbankingWeb
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.3.
+Web application with authentication system allowing its users to consult their bank accounts, transaction histories and make transfers.
 
-## Development server
+## Tech
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+#### Backend
 
-## Code scaffolding
+-  REST API
+-  Java 17 & Spring framework (Spring Data JPA, Spring Security)
+-  PostgreSQL
+-  Stateless authentication with JSON Web Token (JWT).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+#### Frontend
 
-## Build
+-  Angular 16
+-  Standalone Components
+-  State management with NGRX (Redux pattern)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Accounts of a customer
 
-## Running unit tests
+<p align="center">
+    <img src="./src/assets/accounts.png" alt="" style="height: 400px; width:900px;"/>
+</p>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Example of a bank transfer
 
-## Running end-to-end tests
+<p align="center">
+    <img src="./src/assets/bank_transfer.png" alt="" style="height: 400px; width:900px;"/>
+</p>
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Account history
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+<p align="center">
+    <img src="./src/assets/account_history.png" alt="" style="height: 400px; width:900px;"/>
+</p>
